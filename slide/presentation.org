@@ -1,0 +1,291 @@
+#+TITLE: Flutter seguro com o novo Dart
+#+AUTHOR: Mateus Felipe C. C. Pinto
+#+EMAIL: mateusfccp@gmail.com
+#+DATE: 2020-04-30
+#+OPTIONS: H:2 toc:t num:t
+#+LATEX_CLASS: beamer
+#+LATEX_CLASS_OPTIONS: [presentation, aspectratio=1610]
+#+BEAMER_THEME: metropolis [numbering=fraction, progressbar=frametitlel, background=dark]
+#+COLUMNS: %45ITEM %10BEAMER_ENV(Env) %10BEAMER_ACT(Act) %4BEAMER_COL(Col)
+#+STARTUP: beamer
+
+* Sobre mim
+
+** Sobre mim
+
+*** Mateus Felipe C. C. Pinto                                                          
+    :PROPERTIES:
+    :BEAMER_env: block
+    :BEAMER_col: .4
+    :END:
+#+attr_latex: :width 150px
+[[./assets/0_about_me.jpg]]
+
+***                                                          
+    :PROPERTIES:
+    :BEAMER_col: .6
+    :BEAMER_env: block
+    :END:
+
+- Paranaense, 23 anos
+- Desde a infância me interessava por computadores
+- Comecei a usar computadores aos 3 anos, e programar aos 9
+- Bacharel em Teologia
+- Atualmente, moro em Hortolândia - SP e trabalho no IATec como Desenvolvedor Pleno
+
+* O problema do /null/
+
+** Um breve histórico
+
+Em 1965, enquanto desenvolvia a linguagem *ALGOL W*, Tony Hoare introduziu o que chamamos de "null references".
+Ele diz que criou elas simplesmente porque elas eram fáceis de implementar.
+
+44 anos depois, em 2009, ele fez uma palestra explicando o porque esta decisão foi um erro histórico, que tenha causado danos
+incalculáveis, talvez na casa de 1 bilhão de dólares.
+
+Veja a palestra: [[https://www.infoq.com/presentations/Null-References-The-Billion-Dollar-Mistake-Tony-Hoare/][Null References: The Billion Dollar Mistake, by Tony Hoared]]
+
+** Overview
+
+Os problemas do /null/ são bem conhecidos. Não é intuito desta apresentação se aprofundar nesta questão,
+então vou passar brevemente sobre alguns pontos gerais relacionados com o que o novo Dart resolve.
+
+   - Ambiguidade semântica
+   - /Ad-hoc error handling/
+   - /Slow fail/
+
+** Ambiguidade semântica
+
+Todos os tipos podem ser /null/. Isso significa que não há como representar um tipo que não possa ser /null/.
+Consequentemente, não se sabe quando um tipo _deveria ou não_ ser /null/.
+
+-----
+
+#+BEGIN_SRC dart
+void main() {
+    String name = getNameFromDatabase();
+}
+#+END_SRC
+
+#+BEGIN_SRC dart
+void main() {
+    String name = getNameOrNullIfNotFoundFromDatabase();
+}
+#+END_SRC
+
+** Ambiguidade semântica
+
+Como um exemplo prático das consequências desse problema, a documentação do construtor do /widget/ [[https://api.flutter.dev/flutter/widgets/Text/Text.html][Text]] precisa especificar
+que o parâmtero ~data~ não pode ser /null/.
+
+
+[[./assets/0_text_documentation.png]]
+
+** /Ad-hoc error handling/
+
+Toda vez que recebemos um objeto de algum lugar e vamos trabalhar com ele precisamos checar se ele é /null/.
+
+[[./assets/1_null_checking.png]]
+
+** /Ad-hoc error handling/
+
+O /null coalesce operator/ pode nos ajudar nessa tarefa:
+
+[[./assets/2_smart_null_checking.png]]
+
+Ainda assim, o problema não é de todo resolvido. Esquecer de lidar com um /null/ pode garantir dores de cabeça.
+
+** /Slow fail/
+
+/Slow fail/, como o nome sugere, é quanto o erro _demora_ para acontecer. No contexto do /null/, isso acontece porque ele vai ocorrer
+apenas em _tempo de execução_.
+
+#+attr_latex: :width 250px
+[[./assets/3_bsod.png]]
+
+** Exemplo: A widget Text no Flutter
+
+#+BEGIN_CENTER
+[Interação 1]
+#+END_CENTER
+
+* /Null-safety/ com o novo Dart
+
+** A nova funcionalidade do Dart
+
+Há algum tempo o time do Dart tem alocado quase todas as  suas energias para o desenvolvimento da feature que eles chama de /nnbd/:
+/non-null by default/.
+
+[[./assets/4_heading.png]]
+
+Na [[https://medium.com/dartlang/dart-2-7-a3710ec54e97][versão 2.7 do Dart]] foi lançado um /preview/ dessa feature, em que é possível testar como funciona esse novo modo.
+
+** Tipos não nuláveis
+
+A principal diferença do Dart atual para o novo Dart é que, no novo Dart, um tipo é apenas ele mesmo.
+
+\vspace{1cm}
+
+*** Dart                                                      :B_block:BMCOL:
+    :PROPERTIES:
+    :BEAMER_col: .48
+    :BEAMER_env: block
+    :END:
+#+BEGIN_SRC dart
+String = Strint | null
+#+END_SRC
+
+*** Novo Dart                                                 :B_block:BMCOL:
+    :PROPERTIES:
+    :BEAMER_col: .48
+    :BEAMER_env: block
+    :END:
+#+BEGIN_SRC dart
+String = String
+String? = String | null
+#+END_SRC
+
+** Exemplo: A widget Text no Flutter
+
+#+BEGIN_CENTER
+[Interação 2 e 3]
+#+END_CENTER
+
+** /Null-safety/ com o novo Dart
+
+Com o novo sistema de tipos do Dart, muitos dos problemas causados pelo /null/ foram mitigados.
+
+ - O problema da ambiguidade semântica foi resolvido (parcialmente) porque agora um tipo só pode ser /null/ se for explicitamente declarado
+ - O /ad-hoc error handling/ não foi resolvido, mas está mais seguro, já que o linter consegue detectar se você não fez a checkagem
+ - O problema do /slow fail/ foi resolvido, já que agora os problemas com /null/ podem ser detectados em _tempo de compilação_.
+
+* Eliminando completamente o /null/
+
+** Problemas restantes
+
+O /non-null by default/ é um grande avanço para o Dart e seu sistema de tipos. No entanto, ainda há dois problemas para nós resolvermos.
+
+1. Ainda temos que ficar checando por tipos /null/ quando o usamos.
+2. Programar usando /null/ atrapalha a _composição do nosso programa_.
+
+** Exemplo
+
+#+BEGIN_CENTER
+[Interação 4]
+#+END_CENTER
+
+** Uma alternativa ao /null/
+
+[[./assets/5_dont_nulls.jpeg]]
+
+
+** Uma alternativa ao /null/
+
+Para resolver esse problemas restantes apresentados, eu proponho uma alternativa ao /null/. Se o /null/ nos causa problemas, podemos
+simplesmente não usá-los mais.
+
+\vspace{.5cm}
+
+No entanto, o /null/ tem certa importância ao programar. Ele representa a ausência de um valor. É por isso que não vamos simplesmente remover
+o /null/, vamos substituí-lo por uma mônada.
+
+** Uma alternativa ao /null/
+
+Para representar a ausência de um valor, precisamos de um tipo que represente ele mesmo ou o não-ele. Esse tipo já existe no mundo funcional,
+e se chama ~Option~ (ou ~Maybe~). Note que a semântica dos dos é semelhante.
+
+\vspace{1cm}
+
+*** Novo Dart                                                 :B_block:BMCOL:
+    :PROPERTIES:
+    :BEAMER_col: .48
+    :BEAMER_env: block
+    :END:
+#+BEGIN_SRC dart
+String? = String | null
+#+END_SRC
+
+*** Option/Maybe                                              :B_block:BMCOL:
+    :PROPERTIES:
+    :BEAMER_col: .48
+    :BEAMER_env: block
+    :END:
+#+BEGIN_SRC dart
+Option<T> = Some(T) | None
+#+END_SRC
+
+
+** A biblioteca ~dartz~
+
+Eu não vou demorar aqui na teoria por trás dos /sum types/ ou das mônadas. Vou apresentar apenas o funcionamento prático da mônada ~Option~.
+Para isso, vamos nos usar de uma biblioteca já existente que provê um ambiente funcional para o Dart.
+
+\vspace{1cm}
+
+#+BEGIN_CENTER
+O nome dessa biblioteca é ~dartz~.
+#+END_CENTER
+
+** Usando o ~Option~ na prática
+
+#+BEGIN_CENTER
+[Interação 5.1 a 5.3]
+#+END_CENTER
+
+** As funções ~map~ e ~bind~
+
+A função ~map~, como nome sugere, mapeia o conteúdo interno de um functor.
+Ela recebe uma função ~T → T~ que é aplicada sobre o valor.
+
+-----
+
+*** Exemplo:
+
+#+BEGIN_SRC
+// Função int → int
+int double(int a) => a * 2;
+
+Some(10).map(double); // Resultado: Some(20)
+None().map(double); // Resultado: None
+#+END_SRC
+
+** As funções ~map~ e ~bind~
+
+A função ~bind~, é similar ao ~map~. No entanto, em vez de receber uma função  ~T → T~, ela recebe uma função ~T → F(T)~.
+No nosso caso, como nosso functor é o ~Option~, nossa função será ~T →  Option<T>~.
+
+-----
+
+*** Exemplo:
+
+#+BEGIN_SRC
+// Função int → Option<int>
+Option<int> half(int a) => a.isEven ? Some(a ~/ 2) : None();
+
+Some(10).map(half); // Resultado: Some(5)
+Some(5).map(half); // Resultado: None
+None().map(half); // Resultado: None
+#+END_SRC
+
+** Usando ~map~ e ~bind~ na prática
+
+#+BEGIN_CENTER
+[Interação 5.4]
+#+END_CENTER
+
+* Conclusão
+
+** Sumário
+
+ - A existência de /null-references/ é um erro histórico que já causou muito problema
+ - O novo Dart promete resolver esse problema ao aprimorar o sisitema de tipos para ser /non-null by default/
+ - Ainda assim, é possível ter um código ainda mais seguro e semântico usando construtos funcionais
+
+** Conclusão
+
+#+BEGIN_CENTER
+#+attr_latex: :width 250px
+[[./assets/6_fim.jpg]]
+
+Obrigado!
+#+END_CENTER

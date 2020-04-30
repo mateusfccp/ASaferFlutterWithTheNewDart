@@ -1,0 +1,44 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "1. Text Widget",
+            "program": "lib/1_text_widget.dart",
+            "request": "launch",
+            "type": "dart",
+        },
+        {
+            "name": "2. Dart Syntax",
+            "program": "--enable-experiment=non-nullable lib/2_dart_syntax.dart",
+            "request": "launch",
+            "type": "dart",
+        },
+        {
+            "name": "3. Text Widget (non-nullable)",
+            "program": "--enable-experiment=non-nullable lib/3_text_widget_fixed.dart",
+            "request": "launch",
+            "type": "dart",
+        },
+        {
+            "name": "4. Null-safe Computations",
+            "program": "--enable-experiment=non-nullable lib/4_null_safe_computations.dart",
+            "request": "launch",
+            "type": "dart",
+        },
+        {
+            "name": "5. Option Computations",
+            "program": "--enable-experiment=non-nullable lib/5_option_computations.dart",
+            "request": "launch",
+            "type": "dart",
+        },
+        {
+            "name": "6. Final",
+            "program": "--enable-experiment=non-nullable lib/6_final.dart",
+            "request": "launch",
+            "type": "dart",
+        }
+    ]
+}
