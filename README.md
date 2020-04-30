@@ -4,6 +4,8 @@
 
 This is a talk that I presented at 9th Flutterando Online Meetup, on 2020-04-30.
 
+It was based on a article I published on medium: [Dart e Null-safety: uma alternativa funcional](https://medium.com/flutter-comunidade-br/dart-e-nnbd-9810aae37de7)
+
 ### Summary
 
 Null-references has been a historical problem. No wonder that Tony Hoare, considered their creator, stated that its existence
