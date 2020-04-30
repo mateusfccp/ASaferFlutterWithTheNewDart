@@ -6,6 +6,3 @@ environment:
 
 dependencies:
   dartz: 0.9.0
-
-dev_dependencies:
-  pedantic: ^1.8.0
