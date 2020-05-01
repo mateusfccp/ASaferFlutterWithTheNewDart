@@ -4,6 +4,8 @@
 
 This is a talk that I presented at 9th Flutterando Online Meetup, on 2020-04-30.
 
+It was based on a article I published on medium: [Dart e Null-safety: uma alternativa funcional](https://medium.com/flutter-comunidade-br/dart-e-nnbd-9810aae37de7)
+
 ### Summary
 
 Null-references has been a historical problem. No wonder that Tony Hoare, considered their creator, stated that its existence
@@ -33,4 +35,6 @@ environment set up on your system.
 
 The slides are using the [metropolis](https://github.com/matze/mtheme) theme. However, the precompile `.sty` files are present
 in the directory, so you won't have to compile by yourself.
+
+The precompiled slides can be found in the [releases](https://github.com/mateusfccp/ASaferFlutterWithTheNewDart/releases) page.
  
