@@ -262,9 +262,9 @@ No nosso caso, como nosso functor é o ~Option~, nossa função será ~T →  Op
 // Função int → Option<int>
 Option<int> half(int a) => a.isEven ? Some(a ~/ 2) : None();
 
-Some(10).map(half); // Resultado: Some(5)
-Some(5).map(half); // Resultado: None
-None().map(half); // Resultado: None
+Some(10).bind(half); // Resultado: Some(5)
+Some(5).bind(half); // Resultado: None
+None().bind(half); // Resultado: None
 #+END_SRC
 
 ** Usando ~map~ e ~bind~ na prática
