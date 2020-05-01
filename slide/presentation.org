@@ -132,7 +132,7 @@ A principal diferença do Dart atual para o novo Dart é que, no novo Dart, um t
     :BEAMER_env: block
     :END:
 #+BEGIN_SRC dart
-String = Strint | null
+String = String | null
 #+END_SRC
 
 *** Novo Dart                                                 :B_block:BMCOL:
