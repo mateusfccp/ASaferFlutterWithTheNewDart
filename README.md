@@ -35,4 +35,6 @@ environment set up on your system.
 
 The slides are using the [metropolis](https://github.com/matze/mtheme) theme. However, the precompile `.sty` files are present
 in the directory, so you won't have to compile by yourself.
+
+The precompiled slides can be found in the [releases](https://github.com/mateusfccp/ASaferFlutterWithTheNewDart/releases) page.
  
